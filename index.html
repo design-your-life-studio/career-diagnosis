@@ -97,14 +97,14 @@
             align-items: center;
             transition: background-color 0.5s ease;
         }
-        .marquee-inner { display: flex; width: max-content; animation: marquee-seamless 10s linear infinite; }
+        .marquee-inner { display: flex; width: max-content; animation: marquee-seamless 12s linear infinite; }
         .marquee-content {
             display: flex;
             align-items: center;
-            padding-right: 20px; 
+            padding-right: 32px; 
             font-weight: 700;
             letter-spacing: 1px;
-            font-size: 12px;
+            font-size: 11px;
         }
         @keyframes marquee-seamless {
             0% { transform: translateX(0); }
@@ -223,17 +223,21 @@
             border-color: var(--color-ref-orange) !important;
         }
 
+        /* 修改：回歸原本斜體角度 */
         .text-shining-effect {
             color: #FF6B00; 
             font-style: italic;
+            display: inline-block;
             -webkit-text-stroke: 3px #FFFFFF;
             paint-order: stroke fill;
             letter-spacing: -0.02em;
             animation: text-glow-pulse 2s ease-in-out infinite;
         }
 
-        /* 脈動動畫通用類別 */
+        /* 脈動動畫通用類別，回歸原本斜體 */
         .pulse-animation {
+            display: inline-block;
+            font-style: italic;
             animation: text-glow-pulse 2s ease-in-out infinite;
         }
 
@@ -253,7 +257,7 @@
         
         <!-- 首頁 -->
         <div id="page-home" class="page active overflow-hidden" style="background: linear-gradient(to bottom, var(--theme-header) 0%, #ffffff 100%);">
-            <!-- 藍色線條裝飾背景 -->
+            <!-- 裝飾背景 -->
             <div class="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] pointer-events-none transform -rotate-[30deg] opacity-[0.1]" 
                  style="background-image: linear-gradient(var(--color-ref-blue) 1px, transparent 1px), linear-gradient(90deg, var(--color-ref-blue) 1px, transparent 1px); background-size: 25px 25px;">
             </div>
@@ -274,8 +278,8 @@
                 <div class="flex-grow flex flex-col py-2 px-5">
                     <div class="relative flex-shrink-0 mt-4 mb-10">
                         <div class="relative inline-block ml-[20px] pr-4">
-                            <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D] italic pulse-animation">職涯發展</div>
-                            <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0 italic pulse-animation">職涯發展</div>
+                            <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D] pulse-animation">職涯發展</div>
+                            <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0 pulse-animation">職涯發展</div>
                         </div>
                         <div class="relative mt-2">
                             <div class="text-7xl font-black tracking-widest leading-none text-shining-effect relative z-10">適性診斷</div>
@@ -288,11 +292,15 @@
                             CORE ASSESSMENT
                         </div>
                         <div class="bg-white border-2 border-[#111] p-7 pt-9 relative shadow-[8px_8px_0_#111]">
-                            <!-- 修正：加入 text-wrap: balance 並微調結構，確保在手機上不會出現孤字 -->
-                            <p class="font-bold leading-relaxed text-[15px] text-[#111] mb-8" style="text-wrap: balance;">
-                                本診斷測驗旨在透過 5 個核心職場情境，解碼求職者的「內在思考邏輯」與「外在行為表現」。<br><br>
-                                協助求職者識別隱藏的優勢標籤與發展路徑。準備好解鎖核心職能了嗎？
-                            </p>
+                            <!-- 齊行排版確保對稱視覺 -->
+                            <div class="font-bold leading-relaxed text-[15px] text-[#111] mb-8 text-justify break-words">
+                                <p class="mb-5">
+                                    本診斷測驗旨在透過 5 個核心職場情境，解碼求職者的「內在思考邏輯」與「外在行為表現」。協助求職者識別隱藏的優勢標籤與發展路徑。
+                                </p>
+                                <p>
+                                    準備好解鎖核心職能了嗎？
+                                </p>
+                            </div>
                             <div class="flex items-center justify-between opacity-30">
                                 <div class="flex gap-1.5">
                                     <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
@@ -357,17 +365,19 @@
                         </div>
                     </div>
 
+                    <!-- 跑馬燈同步更新：Inner Personality vs Outer Image -->
                     <div class="marquee-bar flex-shrink-0">
                         <div class="marquee-inner">
-                            <div class="marquee-content">Inner Soul vs Behavioral Tools ✦ VOCATIONAL DIAGNOSIS ✦ <span class="ml-8"></span> Inner Soul vs Behavioral Tools ✦ VOCATIONAL DIAGNOSIS ✦ <span class="ml-8"></span></div>
-                            <div class="marquee-content">Inner Soul vs Behavioral Tools ✦ VOCATIONAL DIAGNOSIS ✦ <span class="ml-8"></span> Inner Soul vs Behavioral Tools ✦ VOCATIONAL DIAGNOSIS ✦ <span class="ml-8"></span></div>
+                            <div class="marquee-content">✦ 職場性格深度診斷 ✦ Inner Personality vs Outer Image ✦ VOCATIONAL DIAGNOSIS ✦</div>
+                            <div class="marquee-content">✦ 職場性格深度診斷 ✦ Inner Personality vs Outer Image ✦ VOCATIONAL DIAGNOSIS ✦</div>
                         </div>
                     </div>
 
-                    <!-- 內在靈魂區 -->
+                    <!-- 內在性格區 -->
                     <div class="poster-mid border-b-[2px] border-[#111]">
                         <div class="title-col flex items-center justify-center">
-                            <span class="vertical-text text-lg font-black tracking-widest py-4">內在靈魂</span>
+                            <!-- 已更新為：內在性格 -->
+                            <span class="vertical-text text-lg font-black tracking-widest py-4">內在性格</span>
                         </div>
                         <div class="flex items-center justify-center overflow-hidden px-2">
                             <div id="inner-tags-container" class="flex flex-wrap justify-center gap-2 max-w-[210px] mx-auto"></div>
@@ -378,10 +388,11 @@
                         </div>
                     </div>
 
-                    <!-- 外在工具區 -->
+                    <!-- 外在形象區 -->
                     <div class="poster-bot border-b-[0px]">
                         <div class="title-col flex items-center justify-center">
-                            <span class="vertical-text text-lg font-black tracking-widest py-4">外在工具</span>
+                            <!-- 已更新為：外在形象 -->
+                            <span class="vertical-text text-lg font-black tracking-widest py-4">外在形象</span>
                         </div>
                         <div class="flex flex-col h-full justify-center px-4">
                             <div id="outer-tags-container" class="flex flex-wrap justify-center gap-2 max-w-[310px] mx-auto"></div>
@@ -448,7 +459,7 @@
     <script>
         const questions = [
             { 
-                q: "面對完全陌生的專案，<br>你踏出第一步的方式？", 
+                q: "面對完全陌生的專案，你踏出第一步的方式？", 
                 category: "Information Processing",
                 options: [
                     { text: "深度鑽研過往數據與邏輯架構", attr: "A" },
@@ -458,7 +469,7 @@
                 ] 
             },
             { 
-                q: "在氣氛沉悶的會議中，<br>你通常會如何反應？", 
+                q: "在氣氛沉悶的會議中，你通常會如何反應？", 
                 category: "Social Interaction",
                 options: [
                     { text: "拋出硬核分析試圖導回主軸", attr: "A" },
@@ -468,7 +479,7 @@
                 ] 
             },
             { 
-                q: "當任務目標與個人價值觀<br>衝突時，你會？", 
+                q: "當任務目標與個人價值觀衝突時，你會？", 
                 category: "Decision Value",
                 options: [
                     { text: "堅持原則並提出異議", attr: "A" },
@@ -478,7 +489,7 @@
                 ] 
             },
             { 
-                q: "你最渴望在職場中獲得<br>哪種成就感？", 
+                q: "你最渴望在職場中獲得哪種成就感？", 
                 category: "Drive Motivation",
                 options: [
                     { text: "解決超高難度的邏輯難題", attr: "A" },
@@ -488,7 +499,7 @@
                 ] 
             },
             { 
-                q: "面臨突發重大疏失壓力時，<br>你的第一行為？", 
+                q: "面臨突發重大疏失壓力時，你的第一行為？", 
                 category: "Stress Defense",
                 options: [
                     { text: "迅速切斷情緒，將問題拆解", attr: "A" },
