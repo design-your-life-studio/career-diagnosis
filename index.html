@@ -273,7 +273,8 @@
 
                 <div class="flex-grow flex flex-col py-2 px-5">
                     <div class="relative flex-shrink-0 mt-4 mb-10">
-                        <div class="relative inline-block ml-[20px]">
+                        <!-- 修正：加入 pr-4 以防止斜體與脈動動畫導致的「展」字裁切 -->
+                        <div class="relative inline-block ml-[20px] pr-4">
                             <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D] italic pulse-animation">職涯發展</div>
                             <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0 italic pulse-animation">職涯發展</div>
                         </div>
@@ -331,7 +332,6 @@
             </div>
             <div class="flex-grow flex flex-col p-6 mt-4 overflow-y-auto">
                 <div id="question-category" class="text-[#004B8D] font-black text-[10px] uppercase mb-2 tracking-widest">Dimension Analysis</div>
-                <!-- 已加入 tracking-tighter 與 text-wrap: balance 以優化排版，防止「時」單獨掉落 -->
                 <h2 id="question-text" class="text-3xl font-black leading-snug mb-10 tracking-tighter" style="text-wrap: balance;">載入題目中...</h2>
                 <div id="options-container" class="flex flex-col gap-4 mt-auto pb-8"></div>
             </div>
@@ -471,7 +471,6 @@
                 ] 
             },
             { 
-                // 修改 Q3：將 <br> 放在衝突之前，確保「衝突時」連在一起
                 q: "當任務目標與個人價值觀<br>衝突時，你會？", 
                 category: "Decision Value",
                 options: [
@@ -492,7 +491,6 @@
                 ] 
             },
             { 
-                // 修改 Q5：移除自動掉落風險，將 <br> 放在「壓力」後
                 q: "面臨突發重大疏失壓力時，<br>你的第一行為？", 
                 category: "Stress Defense",
                 options: [
