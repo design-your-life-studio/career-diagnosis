@@ -223,7 +223,7 @@
             border-color: var(--color-ref-orange) !important;
         }
 
-        /* 修改：回歸原本斜體角度 */
+        /* 恢復原本斜體角度樣式 */
         .text-shining-effect {
             color: #FF6B00; 
             font-style: italic;
@@ -234,7 +234,7 @@
             animation: text-glow-pulse 2s ease-in-out infinite;
         }
 
-        /* 脈動動畫通用類別，回歸原本斜體 */
+        /* 脈動動畫通用類別 */
         .pulse-animation {
             display: inline-block;
             font-style: italic;
@@ -253,11 +253,19 @@
 </head>
 <body>
 
+    <!-- 背景音樂播放器：使用穩定來源 -->
+    <audio id="bg-music" loop preload="auto" crossorigin="anonymous">
+        <source src="https://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="app-container">
-        
+        <!-- 全域喇叭按鈕 -->
+        <button id="music-toggle-btn" onclick="toggleMusic()" class="absolute top-[38px] right-[20px] z-[100] text-[#111] hover:opacity-70 active:scale-90 transition-all flex items-center justify-center p-2 bg-white/20 backdrop-blur-sm rounded-full border border-[#111]/5">
+            <i id="music-icon" class="ph-bold ph-speaker-simple-slash text-lg"></i>
+        </button>
+
         <!-- 首頁 -->
         <div id="page-home" class="page active overflow-hidden" style="background: linear-gradient(to bottom, var(--theme-header) 0%, #ffffff 100%);">
-            <!-- 裝飾背景 -->
             <div class="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] pointer-events-none transform -rotate-[30deg] opacity-[0.1]" 
                  style="background-image: linear-gradient(var(--color-ref-blue) 1px, transparent 1px), linear-gradient(90deg, var(--color-ref-blue) 1px, transparent 1px); background-size: 25px 25px;">
             </div>
@@ -265,12 +273,12 @@
             <div class="absolute -top-10 -left-10 w-48 h-48 bg-[#FFF2A7] rounded-full opacity-30 blur-3xl"></div>
 
             <div class="flex-grow flex flex-col relative z-10 h-full">
-                <div class="p-5 flex justify-between items-center flex-shrink-0">
+                <div class="pt-[15px] pb-5 px-5 flex justify-between items-start flex-shrink-0">
                     <div class="flex items-center gap-2 h-5">
                         <div class="w-5 h-5 rounded-full border-2 border-[#111] bg-white"></div>
                         <div id="home-date-display" class="font-black text-[10px] leading-none pt-[2px]">2026.05.08</div>
                     </div>
-                    <div class="h-5 flex items-center">
+                    <div class="flex flex-col items-end">
                         <div class="text-[10px] font-black tracking-widest leading-none pt-[2px]">VOCATIONAL DIAGNOSIS</div>
                     </div>
                 </div>
@@ -278,8 +286,8 @@
                 <div class="flex-grow flex flex-col py-2 px-5">
                     <div class="relative flex-shrink-0 mt-4 mb-10">
                         <div class="relative inline-block ml-[20px] pr-4">
-                            <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D] pulse-animation">職涯發展</div>
-                            <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0 pulse-animation">職涯發展</div>
+                            <div class="text-3xl font-black mb-1 relative z-10 text-[#004B8D] pulse-animation">職涯發展</div>
+                            <div class="absolute -left-1 top-1 text-3xl font-black text-white opacity-50 z-0 pulse-animation">職涯發展</div>
                         </div>
                         <div class="relative mt-2">
                             <div class="text-7xl font-black tracking-widest leading-none text-shining-effect relative z-10">適性診斷</div>
@@ -292,7 +300,6 @@
                             CORE ASSESSMENT
                         </div>
                         <div class="bg-white border-2 border-[#111] p-7 pt-9 relative shadow-[8px_8px_0_#111]">
-                            <!-- 齊行排版確保對稱視覺 -->
                             <div class="font-bold leading-relaxed text-[15px] text-[#111] mb-8 text-justify break-words">
                                 <p class="mb-5">
                                     本診斷測驗旨在透過 5 個核心職場情境，解碼求職者的「內在思考邏輯」與「外在行為表現」。協助求職者識別隱藏的優勢標籤與發展路徑。
@@ -353,7 +360,7 @@
                                 <div id="result-date-display" class="font-black text-[10px] leading-none pt-[2px]">2026/05/08</div>
                             </div>
                             <div class="absolute right-5 h-5 flex items-center">
-                                <span class="text-[10px] font-black tracking-widest leading-none pt-[2px]">DIAGNOSTIC REPORT</span>
+                                <span class="text-[10px] font-black tracking-widest text-[#111] leading-none pt-[2px]">DIAGNOSTIC REPORT</span>
                             </div>
                         </div>
                         <div class="flex items-center mb-4 gap-2 w-full">
@@ -365,7 +372,6 @@
                         </div>
                     </div>
 
-                    <!-- 跑馬燈同步更新：Inner Personality vs Outer Image -->
                     <div class="marquee-bar flex-shrink-0">
                         <div class="marquee-inner">
                             <div class="marquee-content">✦ 職場性格深度診斷 ✦ Inner Personality vs Outer Image ✦ VOCATIONAL DIAGNOSIS ✦</div>
@@ -376,7 +382,6 @@
                     <!-- 內在性格區 -->
                     <div class="poster-mid border-b-[2px] border-[#111]">
                         <div class="title-col flex items-center justify-center">
-                            <!-- 已更新為：內在性格 -->
                             <span class="vertical-text text-lg font-black tracking-widest py-4">內在性格</span>
                         </div>
                         <div class="flex items-center justify-center overflow-hidden px-2">
@@ -391,7 +396,6 @@
                     <!-- 外在形象區 -->
                     <div class="poster-bot border-b-[0px]">
                         <div class="title-col flex items-center justify-center">
-                            <!-- 已更新為：外在形象 -->
                             <span class="vertical-text text-lg font-black tracking-widest py-4">外在形象</span>
                         </div>
                         <div class="flex flex-col h-full justify-center px-4">
@@ -454,9 +458,38 @@
 
     </div>
 
-    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 bg-[#111] text-white px-6 py-3 rounded-full font-bold text-sm z-50 transition-opacity duration-300 opacity-0 pointer-events-none">提示訊息</div>
+    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 bg-[#111] text-white px-6 py-3 rounded-full font-bold text-sm z-[150] transition-opacity duration-300 opacity-0 pointer-events-none">提示訊息</div>
 
     <script>
+        const audio = document.getElementById('bg-music');
+        const musicIcon = document.getElementById('music-icon');
+        let isToggling = false; // 用於鎖定狀態，防止重複點擊造成的競爭狀況
+        
+        audio.volume = 0.5;
+
+        // 優化切換邏輯，防止 play() 被 pause() 中斷
+        async function toggleMusic() {
+            if (isToggling) return;
+            isToggling = true;
+
+            try {
+                if (!audio.paused) {
+                    audio.pause();
+                    musicIcon.className = "ph-bold ph-speaker-simple-slash text-lg";
+                } else {
+                    await audio.play();
+                    musicIcon.className = "ph-bold ph-speaker-simple-high text-lg";
+                }
+            } catch (error) {
+                console.error("播放操作被阻擋或中斷：", error);
+                if (error.name !== 'AbortError') {
+                    showToast("請點擊頁面後再開啟音樂");
+                }
+            } finally {
+                isToggling = false;
+            }
+        }
+
         const questions = [
             { 
                 q: "面對完全陌生的專案，你踏出第一步的方式？", 
@@ -560,7 +593,14 @@
             showPage.classList.add('active'); 
         };
 
-        function startQuiz() { 
+        async function startQuiz() { 
+            // 點擊開始時順便嘗試啟動音樂（如果尚未開啟）
+            if (audio.paused && !isToggling) {
+                try { 
+                    await audio.play(); 
+                    musicIcon.className = "ph-bold ph-speaker-simple-high text-lg";
+                } catch(e) {}
+            }
             currentQuestionIndex = 0; 
             scores = { "A": 0, "B": 0, "C": 0, "D": 0 };
             switchPage(document.getElementById('page-home'), document.getElementById('page-quiz')); 
