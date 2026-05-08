@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>職場性格深度診斷 | 內外在適性評測</title>
+
+    <meta name="description" content="透過 5 個核心職場情境，深度解析您的內在思考邏輯與外在行為表現。專業職涯診斷工具，協助您精準定位職場優勢。">
+    <meta property="og:title" content="職場性格深度診斷 | 2026 內外在適性評測">
+    <meta property="og:description" content="你是天生的戰略官還是敏捷的導航者？5 題解碼你的職場生存模式，日系雜誌風格專業報告。">
+    <meta property="og:type" content="website">
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&family=Inter:wght@900&display=swap" rel="stylesheet">
+    
+    <!-- 引入 Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            /* 初始預設主題 (深色系) */
+            --theme-header: #f8fafc;
+            --theme-marquee: #e2e8f0;
+            --theme-mid: #334155;
+            --theme-mid-dark: #1e293b;
+            --theme-bot: #475569;
+            --theme-bot-dark: #0f172a;
+
+            --color-bg: #f4f4f4;
+            --color-line: #111111;
+            --color-white: #ffffff;
+            --color-ref-blue: #004B8D;
+            --color-ref-orange: #FF6B00;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            overscroll-behavior: none; 
+            position: fixed; 
+            top: 0;
+            left: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--color-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            color: var(--color-line);
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 414px;
+            height: 100dvh; 
+            background-color: var(--color-white); 
+            position: relative;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid var(--color-line);
+            border-right: 2px solid var(--color-line);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: background-color 0.5s ease;
+        }
+
+        /* 跑馬燈動畫 */
+        .marquee-bar {
+            background-color: var(--theme-marquee);
+            color: var(--color-line);
+            padding: 4px 0; 
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 2px solid var(--color-line);
+            border-bottom: 2px solid var(--color-line);
+            display: flex;
+            align-items: center;
+            transition: background-color 0.5s ease;
+        }
+        .marquee-inner { display: flex; width: max-content; animation: marquee-seamless 10s linear infinite; }
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            padding-right: 20px; 
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 12px;
+        }
+        @keyframes marquee-seamless {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* 頁面切換 */
+        .page {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            background-color: var(--color-white);
+            overflow: hidden; 
+        }
+        .page.active {
+            display: flex;
+            animation: slideUpFade 0.4s ease-out forwards;
+        }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 0.2em;
+        }
+
+        .pill-tag {
+            background-color: var(--color-white);
+            border: 2px solid var(--color-line);
+            border-radius: 999px;
+            padding: 6px 14px; 
+            font-weight: 900; 
+            font-size: 14px; 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 0 rgba(0,0,0,1); 
+            white-space: nowrap;
+            width: fit-content;
+        }
+
+        /* 結果頁專屬網格排版 */
+        #poster-layout {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; 
+            background-color: var(--theme-header);
+            transition: background-color 0.5s ease;
+            overflow: hidden;
+        }
+
+        .poster-header {
+            padding: 12px 16px 0 16px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        
+        .poster-mid {
+            background-color: var(--theme-mid);
+            display: grid;
+            grid-template-columns: 44px 1fr 95px;
+            flex-grow: 1; 
+            min-height: 180px;
+            transition: background-color 0.5s ease;
+        }
+        .poster-mid .title-col {
+            border-right: 2px solid var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-white); 
+            background-color: var(--theme-mid-dark);
+            transition: background-color 0.5s ease;
+        }
+        
+        .poster-bot {
+            background-color: var(--theme-bot);
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            flex-grow: 1;
+            transition: background-color 0.5s ease;
+        }
+        .poster-bot .title-col {
+            border-right: 2px solid var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-white); 
+            background-color: var(--theme-bot-dark);
+            transition: background-color 0.5s ease;
+        }
+
+        .poster-footer-box {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            border-top: 2px solid var(--color-line);
+            transition: background-color 0.5s ease;
+            flex-shrink: 0;
+        }
+
+        .quiz-option {
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .quiz-option:active, .quiz-option.selected {
+            background-color: var(--color-ref-orange) !important;
+            color: white !important;
+            transform: scale(0.98);
+            border-color: var(--color-ref-orange) !important;
+        }
+
+        .text-shining-effect {
+            color: #FF6B00; 
+            font-style: italic;
+            -webkit-text-stroke: 3px #FFFFFF;
+            paint-order: stroke fill;
+            filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.6)) 
+                    drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
+            letter-spacing: -0.02em;
+            animation: text-glow-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes text-glow-pulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5)) 
+                        drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(255, 107, 0, 0.9)) 
+                        drop-shadow(0 0 30px rgba(255, 165, 0, 0.4))
+                        drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
+                transform: scale(1.02);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        
+        <!-- 首頁 -->
+        <div id="page-home" class="page active overflow-hidden" style="background: linear-gradient(to bottom, var(--theme-header) 0%, #ffffff 100%);">
+            <div class="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] pointer-events-none transform -rotate-[30deg] opacity-[0.1]" 
+                 style="background-image: linear-gradient(var(--color-ref-blue) 1px, transparent 1px), linear-gradient(90deg, var(--color-ref-blue) 1px, transparent 1px); background-size: 25px 25px;">
+            </div>
+            <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 15px 15px;"></div>
+            <div class="absolute -top-10 -left-10 w-48 h-48 bg-[#FFF2A7] rounded-full opacity-30 blur-3xl"></div>
+
+            <div class="flex-grow flex flex-col relative z-10 h-full">
+                <div class="p-5 flex justify-between items-center flex-shrink-0">
+                    <div class="flex items-center gap-2 h-5">
+                        <div class="w-5 h-5 rounded-full border-2 border-[#111] bg-white"></div>
+                        <div id="home-date-display" class="font-black text-[10px] leading-none pt-[2px]">2026.05.08</div>
+                    </div>
+                    <div class="h-5 flex items-center">
+                        <div class="text-[10px] font-black tracking-widest leading-none pt-[2px]">VOCATIONAL DIAGNOSIS</div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col py-2 px-5">
+                    <div class="relative flex-shrink-0 mt-4 mb-10">
+                        <div class="relative inline-block">
+                            <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D]">職涯發展</div>
+                            <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0">職涯發展</div>
+                        </div>
+                        <div class="relative mt-2">
+                            <div class="text-7xl font-black tracking-widest leading-none text-shining-effect relative z-10">適性診斷</div>
+                            <div class="absolute -bottom-1 left-0 w-full h-8 bg-[#D5E86D] -z-10 transform -rotate-1 opacity-60"></div>
+                        </div>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute -top-3.5 left-4 bg-[#004B8D] text-white px-5 py-1 text-sm font-black italic tracking-widest z-20 shadow-[2px_2px_0_rgba(0,0,0,0.15)]">
+                            CORE ASSESSMENT
+                        </div>
+                        <div class="bg-white border-2 border-[#111] p-7 pt-9 relative shadow-[8px_8px_0_#111]">
+                            <p class="font-bold leading-relaxed text-[15px] text-[#111] mb-8">
+                                本診斷測驗旨在透過 5 個核心職場情境，<br>
+                                解碼求職者的「內在思考邏輯」<br>
+                                與「外在行為表現」。<br><br>
+                                協助求職者識別隱藏的優勢標籤與發展路徑。<br>
+                                準備好解鎖核心職能了嗎？
+                            </p>
+                            <div class="flex items-center justify-between opacity-30">
+                                <div class="flex gap-1.5">
+                                    <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                                    <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                                    <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                                </div>
+                                <i class="ph-bold ph-strategy text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 已修正：將 pb-10 調整為 pb-24，使按鈕上移 -->
+                    <div class="mt-auto pb-24 w-full relative flex justify-center flex-shrink-0">
+                        <button onclick="startQuiz()" class="w-[85%] bg-[#FF6B00] border-[3.5px] border-white text-white font-black text-lg py-4 rounded-full hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[6px_6px_0_rgba(0,0,0,0.12)]">
+                            START DIAGNOSIS
+                            <i class="ph-bold ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 測驗頁 -->
+        <div id="page-quiz" class="page" style="background-color: var(--color-white);">
+            <div class="flex items-center justify-between p-4 border-b-2 border-[#111] flex-shrink-0">
+                <button onclick="restartQuiz()" class="font-black text-xl px-2">←</button>
+                <div class="text-xs font-black tracking-widest">SECTION <span id="question-counter">1/5</span></div>
+                <div class="w-8"></div>
+            </div>
+            <div class="w-full h-2 bg-gray-200 flex-shrink-0">
+                <div id="progress-bar" class="h-full bg-[#FF6B00] transition-all duration-300 w-0"></div>
+            </div>
+            <div class="flex-grow flex flex-col p-6 mt-4 overflow-y-auto">
+                <div id="question-category" class="text-[#004B8D] font-black text-[10px] uppercase mb-2 tracking-widest">Dimension Analysis</div>
+                <h2 id="question-text" class="text-2xl font-black leading-snug mb-10">載入題目中...</h2>
+                <div id="options-container" class="flex flex-col gap-4 mt-auto pb-8"></div>
+            </div>
+        </div>
+
+        <!-- 結果頁 -->
+        <div id="page-result" class="page">
+            <div class="flex flex-col h-full">
+                <div id="poster-layout">
+                    <div class="poster-header relative flex-shrink-0">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center gap-1.5 h-5">
+                                <div class="w-4 h-4 rounded-full border-[2px] border-[#111] bg-white"></div>
+                                <div id="result-date-display" class="font-black text-[10px] leading-none pt-[2px]">2026/05/08</div>
+                            </div>
+                            <div class="absolute right-5 h-5 flex items-center">
+                                <span class="text-[10px] font-black tracking-widest leading-none pt-[2px]">DIAGNOSTIC REPORT</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center mb-4 gap-2 w-full">
+                            <div class="flex-shrink-0 flex items-center gap-1.5">
+                                <span id="result-catchphrase" class="text-xl font-black whitespace-nowrap z-10 relative px-1">核心屬性</span>
+                                <svg width="24" height="16" viewBox="0 0 30 20" class="fill-current"><path d="M20 0 L30 10 L20 20 L17 17 L22 12 L0 12 L0 8 L22 8 L17 3 Z"/></svg>
+                            </div>
+                            <h1 id="result-title" class="text-[1.8rem] font-black leading-none tracking-tight pb-1 pt-0.5 px-2 border-2 border-[#111] whitespace-nowrap overflow-hidden bg-white">載入中</h1>
+                        </div>
+                    </div>
+
+                    <div class="marquee-bar flex-shrink-0">
+                        <div class="marquee-inner">
+                            <div class="marquee-content">Inner Soul vs Behavioral Tools ✦ VOCATIONAL DIAGNOSIS ✦ <span class="ml-8"></span> Inner Soul vs Behavioral Tools ✦ VOCATIONAL DIAGNOSIS ✦ <span class="ml-8"></span></div>
+                            <div class="marquee-content">Inner Soul vs Behavioral Tools ✦ VOCATIONAL DIAGNOSIS ✦ <span class="ml-8"></span> Inner Soul vs Behavioral Tools ✦ VOCATIONAL DIAGNOSIS ✦ <span class="ml-8"></span></div>
+                        </div>
+                    </div>
+
+                    <!-- 內在靈魂區 -->
+                    <div class="poster-mid border-b-[2px] border-[#111]">
+                        <div class="title-col flex items-center justify-center">
+                            <span class="vertical-text text-lg font-black tracking-widest py-4">內在靈魂</span>
+                        </div>
+                        <div class="flex items-center justify-center overflow-hidden px-2">
+                            <div id="inner-tags-container" class="flex flex-wrap justify-center gap-2 max-w-[210px] mx-auto"></div>
+                        </div>
+                        <div class="border-l-[2px] border-white flex flex-col items-center justify-center bg-[#f4f4f4] relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
+                            <div id="result-icon" class="text-[4.5rem] z-10 transform hover:scale-110 transition-transform drop-shadow-[4px_6px_0_rgba(0,0,0,0.2)] mt-2">💡</div>
+                        </div>
+                    </div>
+
+                    <!-- 外在工具區 -->
+                    <div class="poster-bot border-b-[0px]">
+                        <div class="title-col flex items-center justify-center">
+                            <span class="vertical-text text-lg font-black tracking-widest py-4">外在工具</span>
+                        </div>
+                        <div class="flex flex-col h-full justify-center px-4">
+                            <div id="outer-tags-container" class="flex flex-wrap justify-center gap-2 max-w-[310px] mx-auto"></div>
+                        </div>
+                    </div>
+
+                    <!-- 底部標語 -->
+                    <div class="poster-footer-box" style="background-color: var(--theme-bot-dark);">
+                        <div style="background-color: var(--theme-mid-dark); border-right: 2px solid white;"></div>
+                        <div class="py-4 flex items-center justify-center">
+                            <span class="text-white font-black text-[11px] tracking-[0.25em] uppercase italic">Professional Insight Report</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 底部按鈕 -->
+                <div class="bg-white border-t-2 border-[#111] p-3 flex gap-2 flex-shrink-0 z-20">
+                    <button onclick="restartQuiz()" class="flex-1 py-3 border-2 border-[#111] font-black text-sm active:bg-gray-100 flex justify-center items-center gap-1"><i class="ph-bold ph-arrow-counter-clockwise"></i> 重新診斷</button>
+                    <button onclick="openShareModal()" class="flex-1 py-3 bg-[#111] text-white font-black text-sm active:opacity-80 flex justify-center items-center gap-1"><i class="ph-bold ph-share-network"></i> 分享結果</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分享彈窗 -->
+        <div id="share-modal-overlay" class="absolute inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeShareModal()"></div>
+        <div id="share-modal-sheet" class="absolute bottom-0 left-0 w-full bg-white rounded-t-[32px] border-t-[3px] border-x-[3px] border-[#111] z-50 transform translate-y-full transition-transform duration-300 flex flex-col p-8 shadow-[0_-10px_20px_rgba(0,0,0,0.1)] pb-10">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center gap-2 font-black text-xl"><i class="ph-bold ph-share-network"></i> 分享診斷結果</div>
+                <button onclick="closeShareModal()" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200 active:scale-95 transition-all"><i class="ph-bold ph-x"></i></button>
+            </div>
+            
+            <div class="flex justify-between items-start gap-2 px-1">
+                <div class="flex flex-col items-center gap-3 cursor-pointer group active:scale-95 transition-transform" onclick="shareToPlatform('copy')">
+                    <div class="w-[72px] h-[72px] bg-[#71717A] rounded-[24px] flex items-center justify-center text-white text-3xl shadow-sm group-hover:opacity-90">
+                        <i class="ph-bold ph-link"></i>
+                    </div>
+                    <span class="text-sm font-black text-[#3F3F46]">複製連結</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 cursor-pointer group active:scale-95 transition-transform" onclick="shareToPlatform('fb')">
+                    <div class="w-[72px] h-[72px] bg-[#1877F2] rounded-[24px] flex items-center justify-center text-white text-2xl font-black shadow-sm group-hover:opacity-90">
+                        FB
+                    </div>
+                    <span class="text-sm font-black text-[#3F3F46]">Facebook</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 cursor-pointer group active:scale-95 transition-transform" onclick="shareToPlatform('line')">
+                    <div class="w-[72px] h-[72px] bg-[#06C755] rounded-[24px] flex items-center justify-center text-white text-xl font-black shadow-sm group-hover:opacity-90">
+                        LINE
+                    </div>
+                    <span class="text-sm font-black text-[#3F3F46]">LINE</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 cursor-pointer group active:scale-95 transition-transform" onclick="shareToPlatform('threads')">
+                    <div class="w-[72px] h-[72px] bg-[#000000] rounded-[24px] flex items-center justify-center text-white text-base font-black shadow-sm group-hover:opacity-90">
+                        Threads
+                    </div>
+                    <span class="text-sm font-black text-[#3F3F46]">Threads</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 bg-[#111] text-white px-6 py-3 rounded-full font-bold text-sm z-50 transition-opacity duration-300 opacity-0 pointer-events-none">提示訊息</div>
+
+    <script>
+        const questions = [
+            { 
+                q: "面對完全陌生的專案，<br>你踏出第一步的方式？", 
+                category: "Information Processing",
+                options: [
+                    { text: "深度鑽研過往數據與邏輯架構", attr: "A" },
+                    { text: "直覺先行做出一個初步雛形", attr: "B" },
+                    { text: "諮詢他人經驗以符合期待", attr: "C" },
+                    { text: "思考資源分配與整合效率", attr: "D" }
+                ] 
+            },
+            { 
+                q: "在氣氛沉悶的會議中，<br>你通常會如何反應？", 
+                category: "Social Interaction",
+                options: [
+                    { text: "拋出硬核分析試圖導回主軸", attr: "A" },
+                    { text: "用幽默感或輕鬆話題破冰", attr: "B" },
+                    { text: "觀察每個人表情，最後才發言", attr: "C" },
+                    { text: "直接總結共識並要求表態", attr: "D" }
+                ] 
+            },
+            { 
+                q: "當任務目標與個人價值觀衝突時，<br>你會？", 
+                category: "Decision Value",
+                options: [
+                    { text: "堅持原則並提出異議", attr: "A" },
+                    { text: "尋求團隊利益最大化的折衷", attr: "B" },
+                    { text: "專業抽離，視為純粹任務", attr: "C" },
+                    { text: "重新定義意義，轉化為自己目標", attr: "D" }
+                ] 
+            },
+            { 
+                q: "你最渴望在職場中獲得<br>哪種成就感？", 
+                category: "Drive Motivation",
+                options: [
+                    { text: "解決超高難度的邏輯難題", attr: "A" },
+                    { text: "實質改變了他人或公司現況", attr: "B" },
+                    { text: "建立一套穩定的流程體系", attr: "C" },
+                    { text: "與團隊達成高度信任的目標", attr: "D" }
+                ] 
+            },
+            { 
+                q: "面臨突發重大疏失壓力時，<br>你的第一行為？", 
+                category: "Stress Defense",
+                options: [
+                    { text: "迅速切斷情緒，將問題拆解", attr: "A" },
+                    { text: "先確認成員心態，防止恐慌", attr: "B" },
+                    { text: "立刻向外尋求支援控管損害", attr: "C" },
+                    { text: "憑直覺執行第一時間補救案", attr: "D" }
+                ] 
+            }
+        ];
+
+        const resultsData = {
+            "A": { 
+                title: "首席戰略官", catchphrase: "思考導向", icon: "🧭", 
+                innerTags: ["理性分析", "公正邏輯", "深度挖掘", "本質思考"], 
+                outerTags: ["冷靜應對", "精準溝通", "數據說服", "風險規備"], 
+                theme: { header: "#f1f5f9", marquee: "#cbd5e1", mid: "#334155", midDark: "#1e293b", bot: "#475569", botDark: "#0f172a", tagColors: ["#0f172a", "#334155", "#004B8D"] } 
+            },
+            "B": { 
+                title: "敏捷導航者", catchphrase: "直覺導向", icon: "⚡", 
+                innerTags: ["直覺驅動", "情感流動", "高度適應", "價值重構"], 
+                outerTags: ["活躍破冰", "共情領導", "彈性執行", "快速原型"], 
+                theme: { header: "#FEF9C3", marquee: "#FDE047", mid: "#38BDF8", midDark: "#0284C7", bot: "#FACC15", botDark: "#EAB308", tagColors: ["#EAB308", "#0284C7", "#FF6B00"] } 
+            },
+            "C": { 
+                title: "秩序守衛者", catchphrase: "穩定導向", icon: "🛡️", 
+                innerTags: ["秩序導向", "觀察敏銳", "穩健踏實", "長期主義"], 
+                outerTags: ["團隊支撐", "危機控管", "流程優化", "精確配合"], 
+                theme: { header: "#E3EFD4", marquee: "#D5E86D", mid: "#68A19F", midDark: "#5C9493", bot: "#B6E64F", botDark: "#A2CE45", tagColors: ["#5C9493", "#A2CE45", "#004B8D"] } 
+            },
+            "D": { 
+                title: "效能開發者", catchphrase: "變革導向", icon: "🔥", 
+                innerTags: ["掌控慾", "變革動力", "效率優先", "自主開發"], 
+                outerTags: ["霸氣推動", "資源整合", "競爭導向", "結果說話"], 
+                theme: { header: "#FEE2E2", marquee: "#FCA5A5", mid: "#EF4444", midDark: "#B91C1C", bot: "#F87171", botDark: "#7F1D1D", tagColors: ["#B91C1C", "#FF6B00", "#111111"] } 
+            }
+        };
+
+        let currentQuestionIndex = 0;
+        let scores = { "A": 0, "B": 0, "C": 0, "D": 0 };
+        let currentResultTitle = "";
+
+        const applyTheme = (theme) => {
+            document.documentElement.style.setProperty('--theme-header', theme.header);
+            document.documentElement.style.setProperty('--theme-marquee', theme.marquee);
+            document.documentElement.style.setProperty('--theme-mid', theme.mid);
+            document.documentElement.style.setProperty('--theme-mid-dark', theme.midDark);
+            document.documentElement.style.setProperty('--theme-bot', theme.bot);
+            document.documentElement.style.setProperty('--theme-bot-dark', theme.botDark);
+        };
+
+        const showToast = (msg) => { const t = document.getElementById('toast'); t.textContent = msg; t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 3000); };
+        
+        const switchPage = (hidePage, showPage) => { 
+            hidePage.style.display = 'none'; 
+            hidePage.classList.remove('active'); 
+            showPage.style.display = 'flex'; 
+            void showPage.offsetWidth; 
+            showPage.classList.add('active'); 
+        };
+
+        function startQuiz() { 
+            currentQuestionIndex = 0; 
+            scores = { "A": 0, "B": 0, "C": 0, "D": 0 };
+            switchPage(document.getElementById('page-home'), document.getElementById('page-quiz')); 
+            renderQuestion(); 
+        }
+
+        function updateAllDates() {
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+            const homeDate = document.getElementById('home-date-display');
+            const resultDate = document.getElementById('result-date-display');
+            if(homeDate) homeDate.textContent = dateStr;
+            if(resultDate) resultDate.textContent = dateStr;
+        }
+
+        window.onload = updateAllDates;
+
+        function restartQuiz() { 
+            applyTheme({ header: "#f8fafc", marquee: "#e2e8f0", mid: "#334155", midDark: "#1e293b", bot: "#475569", botDark: "#0f172a" });
+            switchPage(document.querySelector('.page.active'), document.getElementById('page-home')); 
+        }
+
+        function renderQuestion() {
+            const qData = questions[currentQuestionIndex];
+            document.getElementById('progress-bar').style.width = `${(currentQuestionIndex / questions.length) * 100}%`;
+            document.getElementById('question-counter').textContent = `${currentQuestionIndex + 1}/${questions.length}`;
+            document.getElementById('question-category').textContent = qData.category;
+            document.getElementById('question-text').innerHTML = qData.q;
+            
+            const container = document.getElementById('options-container'); 
+            container.innerHTML = '';
+            
+            qData.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-option w-full py-4 px-5 bg-white border-2 border-[#111] text-[#111] font-bold text-left text-sm relative shadow-[4px_4px_0_#111]";
+                btn.innerHTML = `<span class="relative z-10">${opt.text}</span>`;
+                btn.onclick = () => {
+                    document.querySelectorAll('.quiz-option').forEach(b => b.style.pointerEvents = 'none');
+                    btn.classList.add('selected'); 
+                    scores[opt.attr]++;
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex < questions.length) renderQuestion();
+                        else calculateAndShowResult();
+                    }, 300);
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function calculateAndShowResult() {
+            let maxAttr = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+            const result = resultsData[maxAttr];
+            currentResultTitle = result.title;
+            
+            applyTheme(result.theme);
+            document.getElementById('result-icon').textContent = result.icon;
+            document.getElementById('result-title').textContent = result.title;
+            document.getElementById('result-catchphrase').textContent = result.catchphrase;
+            
+            const now = new Date();
+            document.getElementById('result-date-display').textContent = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+            
+            const innerC = document.getElementById('inner-tags-container');
+            innerC.innerHTML = '';
+            result.innerTags.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = "pill-tag";
+                span.style.color = "var(--theme-mid-dark)";
+                span.textContent = tag;
+                innerC.appendChild(span);
+            });
+
+            const outerC = document.getElementById('outer-tags-container');
+            outerC.innerHTML = '';
+            result.outerTags.forEach((tag, idx) => {
+                const span = document.createElement('span');
+                span.className = "pill-tag";
+                span.style.color = result.theme.tagColors[idx % result.theme.tagColors.length];
+                span.textContent = tag;
+                outerC.appendChild(span);
+            });
+
+            switchPage(document.getElementById('page-quiz'), document.getElementById('page-result'));
+        }
+
+        function openShareModal() { 
+            const overlay = document.getElementById('share-modal-overlay'), sheet = document.getElementById('share-modal-sheet'); 
+            overlay.classList.remove('opacity-0', 'pointer-events-none'); 
+            overlay.classList.add('opacity-100', 'pointer-events-auto'); 
+            sheet.classList.remove('translate-y-full'); 
+            sheet.classList.add('translate-y-0'); 
+        }
+
+        function closeShareModal() { 
+            const overlay = document.getElementById('share-modal-overlay'), sheet = document.getElementById('share-modal-sheet'); 
+            overlay.classList.remove('opacity-100', 'pointer-events-auto'); 
+            overlay.classList.add('opacity-0', 'pointer-events-none'); 
+            sheet.classList.remove('translate-y-0'); 
+            sheet.classList.add('translate-y-full'); 
+        }
+
+        function shareToPlatform(platform) {
+            const shareText = `我的職場性格診斷結果是【${currentResultTitle}】！這是一個深度解碼內外在特質的測驗，快來測測看你是哪一型！`;
+            const url = window.location.href;
+
+            if (platform === 'copy') {
+                const dummy = document.createElement('textarea');
+                document.body.appendChild(dummy);
+                dummy.value = `${shareText}\n${url}`;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+                showToast("連結已複製，快分享給戰友吧！");
+                closeShareModal();
+            } else if (platform === 'fb') {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+            } else if (platform === 'line') {
+                window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`, '_blank');
+            } else if (platform === 'threads') {
+                window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(shareText + '\n' + url)}`, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
