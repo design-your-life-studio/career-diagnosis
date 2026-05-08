@@ -228,22 +228,20 @@
             font-style: italic;
             -webkit-text-stroke: 3px #FFFFFF;
             paint-order: stroke fill;
-            filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.6)) 
-                    drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
             letter-spacing: -0.02em;
+            animation: text-glow-pulse 2s ease-in-out infinite;
+        }
+
+        /* 脈動動畫通用類別 */
+        .pulse-animation {
             animation: text-glow-pulse 2s ease-in-out infinite;
         }
 
         @keyframes text-glow-pulse {
             0%, 100% {
-                filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5)) 
-                        drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
                 transform: scale(1);
             }
             50% {
-                filter: drop-shadow(0 0 20px rgba(255, 107, 0, 0.9)) 
-                        drop-shadow(0 0 30px rgba(255, 165, 0, 0.4))
-                        drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
                 transform: scale(1.02);
             }
         }
@@ -255,10 +253,11 @@
         
         <!-- 首頁 -->
         <div id="page-home" class="page active overflow-hidden" style="background: linear-gradient(to bottom, var(--theme-header) 0%, #ffffff 100%);">
+            <!-- 藍色線條裝飾背景 -->
             <div class="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] pointer-events-none transform -rotate-[30deg] opacity-[0.1]" 
                  style="background-image: linear-gradient(var(--color-ref-blue) 1px, transparent 1px), linear-gradient(90deg, var(--color-ref-blue) 1px, transparent 1px); background-size: 25px 25px;">
             </div>
-            <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 15px 15px;"></div>
+            
             <div class="absolute -top-10 -left-10 w-48 h-48 bg-[#FFF2A7] rounded-full opacity-30 blur-3xl"></div>
 
             <div class="flex-grow flex flex-col relative z-10 h-full">
@@ -275,8 +274,8 @@
                 <div class="flex-grow flex flex-col py-2 px-5">
                     <div class="relative flex-shrink-0 mt-4 mb-10">
                         <div class="relative inline-block ml-[20px]">
-                            <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D] italic">職涯發展</div>
-                            <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0 italic">職涯發展</div>
+                            <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D] italic pulse-animation">職涯發展</div>
+                            <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0 italic pulse-animation">職涯發展</div>
                         </div>
                         <div class="relative mt-2">
                             <div class="text-7xl font-black tracking-widest leading-none text-shining-effect relative z-10">適性診斷</div>
@@ -307,9 +306,8 @@
                         </div>
                     </div>
 
-                    <!-- 橘色膠囊按鈕 -->
-                    <div class="mt-auto pb-10 w-full relative flex justify-center flex-shrink-0">
-                        <button onclick="startQuiz()" class="w-[60%] bg-[#FF6B00] border-[3.5px] border-white text-white font-black py-4 rounded-full hover:opacity-95 active:scale-95 active:bg-[#004B8D] transition-all flex items-center justify-center gap-[5px] shadow-[6px_6px_0_rgba(0,0,0,0.12)]">
+                    <div class="mt-auto pb-[30px] w-full relative flex justify-center flex-shrink-0">
+                        <button onclick="startQuiz()" class="w-[60%] bg-[#FF6B00] border-[3.5px] border-white text-white font-black py-4 rounded-full hover:opacity-95 active:scale-95 active:bg-[#004B8D] transition-all flex items-center justify-center gap-[5px] shadow-[6px_6px_0_rgba(0,0,0,0.12)] pulse-animation">
                             <div class="flex flex-col items-center gap-1 ml-[5px]">
                                 <span class="text-[28px] tracking-[0.02em] font-black leading-none">開始診斷</span>
                                 <span class="text-[10px] tracking-[0.12em] font-bold opacity-90 leading-none">START DIAGNOSIS</span>
@@ -333,7 +331,8 @@
             </div>
             <div class="flex-grow flex flex-col p-6 mt-4 overflow-y-auto">
                 <div id="question-category" class="text-[#004B8D] font-black text-[10px] uppercase mb-2 tracking-widest">Dimension Analysis</div>
-                <h2 id="question-text" class="text-2xl font-black leading-snug mb-10">載入題目中...</h2>
+                <!-- 已將題目字級從 text-2xl 加大至 text-3xl (30px) -->
+                <h2 id="question-text" class="text-3xl font-black leading-snug mb-10">載入題目中...</h2>
                 <div id="options-container" class="flex flex-col gap-4 mt-auto pb-8"></div>
             </div>
         </div>
@@ -588,7 +587,6 @@
             
             qData.options.forEach((opt) => {
                 const btn = document.createElement('button');
-                // 已更新：陰影改為 #004B8D
                 btn.className = "quiz-option w-full py-4 px-5 bg-white border-2 border-[#111] text-[#111] font-bold text-left text-sm relative shadow-[4px_4px_0_#004B8D]";
                 btn.innerHTML = `<span class="relative z-10">${opt.text}</span>`;
                 btn.onclick = () => {
