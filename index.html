@@ -273,7 +273,6 @@
 
                 <div class="flex-grow flex flex-col py-2 px-5">
                     <div class="relative flex-shrink-0 mt-4 mb-10">
-                        <!-- 修正：加入 pr-4 以防止斜體與脈動動畫導致的「展」字裁切 -->
                         <div class="relative inline-block ml-[20px] pr-4">
                             <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D] italic pulse-animation">職涯發展</div>
                             <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0 italic pulse-animation">職涯發展</div>
@@ -289,12 +288,10 @@
                             CORE ASSESSMENT
                         </div>
                         <div class="bg-white border-2 border-[#111] p-7 pt-9 relative shadow-[8px_8px_0_#111]">
-                            <p class="font-bold leading-relaxed text-[15px] text-[#111] mb-8">
-                                本診斷測驗旨在透過 5 個核心職場情境，<br>
-                                解碼求職者的「內在思考邏輯」<br>
-                                與「外在行為表現」。<br><br>
-                                協助求職者識別隱藏的優勢標籤與發展路徑。<br>
-                                準備好解鎖核心職能了嗎？
+                            <!-- 修正：加入 text-wrap: balance 並微調結構，確保在手機上不會出現孤字 -->
+                            <p class="font-bold leading-relaxed text-[15px] text-[#111] mb-8" style="text-wrap: balance;">
+                                本診斷測驗旨在透過 5 個核心職場情境，解碼求職者的「內在思考邏輯」與「外在行為表現」。<br><br>
+                                協助求職者識別隱藏的優勢標籤與發展路徑。準備好解鎖核心職能了嗎？
                             </p>
                             <div class="flex items-center justify-between opacity-30">
                                 <div class="flex gap-1.5">
