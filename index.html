@@ -172,7 +172,8 @@
         .poster-mid {
             background-color: var(--theme-mid);
             display: grid;
-            grid-template-columns: 44px 1fr 95px;
+            /* 將原本的 95px 圖片區塊拉寬至 140px，讓左側標籤區適當收窄 */
+            grid-template-columns: 44px 1fr 140px;
             flex-grow: 1; 
             min-height: 180px;
             transition: background-color 0.5s ease;
@@ -205,11 +206,11 @@
         }
 
         .poster-footer-box {
-            display: flex; /* 改為 flex 佈局以配合全寬跑馬燈 */
+            display: flex; 
             border-top: 2px solid var(--color-line);
             transition: background-color 0.5s ease;
             flex-shrink: 0;
-            height: 32px; /* 已修改：高度與上方跑馬燈一致 */
+            height: 32px; 
         }
 
         .quiz-option {
@@ -396,7 +397,6 @@
                         </div>
                         <div class="border-l-[2px] border-[#111] flex flex-col items-center justify-center bg-[#f4f4f4] relative overflow-hidden">
                             <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
-                            <!-- 已更新：將原本的 emoji 替換為圖片 img 標籤 -->
                             <img id="result-image" src="type-placeholder.png" alt="Character" class="w-full h-full object-cover z-10 relative">
                         </div>
                     </div>
@@ -413,9 +413,7 @@
 
                     <!-- 底部區塊：修正為全寬跑馬燈 -->
                     <div class="poster-footer-box" style="background-color: var(--theme-bot-dark);">
-                        <!-- 已移除左側裝飾塊 -->
                         <div class="overflow-hidden flex items-center w-full">
-                            <!-- 底部跑馬燈元件 -->
                             <div class="marquee-bar footer-marquee w-full">
                                 <div class="marquee-inner">
                                     <div class="marquee-content text-white opacity-90">✦ 職場性格深度診斷 ✦ Inner Personality vs Outer Image ✦ VOCATIONAL DIAGNOSIS ✦</div>
