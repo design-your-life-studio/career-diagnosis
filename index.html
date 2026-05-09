@@ -396,7 +396,8 @@
                         </div>
                         <div class="border-l-[2px] border-white flex flex-col items-center justify-center bg-[#f4f4f4] relative overflow-hidden">
                             <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
-                            <div id="result-icon" class="text-[4.5rem] z-10 transform hover:scale-110 transition-transform drop-shadow-[4px_6px_0_rgba(0,0,0,0.2)] mt-2">💡</div>
+                            <!-- 已更新：將原本的 emoji 替換為圖片 img 標籤 -->
+                            <img id="result-image" src="type-placeholder.png" alt="Character" class="w-full h-full object-cover z-10 relative">
                         </div>
                     </div>
 
@@ -529,25 +530,29 @@
 
         const resultsData = {
             "A": { 
-                title: "首席戰略官", catchphrase: "思考導向", icon: "🧭", 
+                title: "首席戰略官", catchphrase: "思考導向", 
+                imgSrc: "type_character-A.png", /* A型人圖片檔名 */
                 innerTags: ["理性分析", "公正邏輯", "深度挖掘", "本質思考"], 
                 outerTags: ["冷靜應對", "精準溝通", "數據說服", "風險規備"], 
                 theme: { header: "#f1f5f9", marquee: "#cbd5e1", mid: "#334155", midDark: "#1e293b", bot: "#475569", botDark: "#0f172a", tagColors: ["#0f172a", "#334155", "#004B8D"] } 
             },
             "B": { 
-                title: "敏捷導航者", catchphrase: "直覺導向", icon: "⚡", 
+                title: "敏捷導航者", catchphrase: "直覺導向", 
+                imgSrc: "type_character-B.png", /* B型人圖片檔名 */
                 innerTags: ["直覺驅動", "情感流動", "高度適應", "價值重構"], 
                 outerTags: ["活躍破冰", "共情領導", "彈性執行", "快速原型"], 
                 theme: { header: "#FEF9C3", marquee: "#FDE047", mid: "#38BDF8", midDark: "#0284C7", bot: "#FACC15", botDark: "#EAB308", tagColors: ["#EAB308", "#0284C7", "#FF6B00"] } 
             },
             "C": { 
-                title: "秩序守衛者", catchphrase: "穩定導向", icon: "🛡️", 
+                title: "秩序守衛者", catchphrase: "穩定導向", 
+                imgSrc: "type_character-C.png", /* C型人圖片檔名 */
                 innerTags: ["秩序導向", "觀察敏銳", "穩健踏實", "長期主義"], 
                 outerTags: ["團隊支撐", "危機控管", "流程優化", "精確配合"], 
                 theme: { header: "#E3EFD4", marquee: "#D5E86D", mid: "#68A19F", midDark: "#5C9493", bot: "#B6E64F", botDark: "#A2CE45", tagColors: ["#5C9493", "#A2CE45", "#004B8D"] } 
             },
             "D": { 
-                title: "效能開發者", catchphrase: "變革導向", icon: "🔥", 
+                title: "效能開發者", catchphrase: "變革導向", 
+                imgSrc: "type_character-D.png", /* D型人圖片檔名 */
                 innerTags: ["掌控慾", "變革動力", "效率優先", "自主開發"], 
                 outerTags: ["霸氣推動", "資源整合", "競爭導向", "結果說話"], 
                 theme: { header: "#FEE2E2", marquee: "#FCA5A5", mid: "#EF4444", midDark: "#B91C1C", bot: "#F87171", botDark: "#7F1D1D", tagColors: ["#B91C1C", "#FF6B00", "#111111"] } 
@@ -634,7 +639,8 @@
             currentResultTitle = result.title;
             
             applyTheme(result.theme);
-            document.getElementById('result-icon').textContent = result.icon;
+            // 已更新：替換圖片的 src 路徑
+            document.getElementById('result-image').src = result.imgSrc;
             document.getElementById('result-title').textContent = result.title;
             document.getElementById('result-catchphrase').textContent = result.catchphrase;
             
